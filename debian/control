@@ -1,0 +1,15 @@
+Source: cos-upgrade
+Section: main
+Priority: extra
+Maintainer: xifei wu <xifei@nfs.iscas.ac.cn>
+Build-Depends: debhelper (>= 8.0.0)
+Standards-Version: 3.9.4
+Homepage: http://124.16.141.172
+#Vcs-Git: git://git.debian.org/collab-maint/cos-upgrade.git
+#Vcs-Browser: http://git.debian.org/?p=collab-maint/cos-upgrade.git;a=summary
+
+Package: cos-upgrade
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: shell script used for cos desktop update.
+ shell script used for cos desktop update, used command cos-update in your terminal.
