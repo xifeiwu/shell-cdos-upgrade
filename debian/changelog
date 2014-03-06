@@ -1,22 +1,22 @@
-cos-upgrade (2014.02.22) iceblue; urgency=low
+cdos-upgrade (2014.02.22) iceblue; urgency=low
 
   * coperate with PyGtk.
 
  -- xifei wu <xifei@nfs.iscas.ac.cn>  Thur, 22 Feb 2014 11:14:28 +0800
 
-cos-upgrade (2013.12.25) iceblue; urgency=low
+cdos-upgrade (2013.12.25) iceblue; urgency=low
 
   * upgrade for cos v1.0.
 
  -- xifei wu <xifei@nfs.iscas.ac.cn>  Thur, 25 Dec 2013 11:14:28 +0800
 
-cos-upgrade (2013.11.28) iceblue; urgency=low
+cdos-upgrade (2013.11.28) iceblue; urgency=low
 
   * upgrade for cos v0.9.
 
  -- ISCAS <cos_ibp@iscas.ac.cn>  Thur, 28 Nov 2013 11:14:28 +0800
 
-cos-upgrade (2013.10.31) unstable; urgency=low
+cdos-upgrade (2013.10.31) unstable; urgency=low
 
   * Initial Release.
 
