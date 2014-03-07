@@ -296,8 +296,8 @@ function otherfix()
 #    ln -s /bin/bash /bin/sh
 
     echo "Upgrade Linux Kernel."
-    apt-get -t iceblue install -y --force-yes linux-headers-3.8.13.13-cos-i686 >/dev/null 2>&1 || return 2
-    apt-get -t iceblue install -y --force-yes linux-image-3.8.13.13-cos-i686 >/dev/null 2>&1 || return 2
+    apt-get -t iceblue install -y --force-yes linux-headers-3.8.13.13-cdos >/dev/null 2>&1 || return 2
+    apt-get -t iceblue install -y --force-yes linux-image-3.8.13.13-cdos >/dev/null 2>&1 || return 2
     update-grub || return 1
 
     return 0

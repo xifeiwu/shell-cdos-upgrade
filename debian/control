@@ -1,4 +1,4 @@
-Source: cos-upgrade
+Source: cdos-upgrade
 Section: main
 Priority: extra
 Maintainer: CDOS Team <cdos_support@iscas.ac.cn>
@@ -8,8 +8,8 @@ Homepage: http://124.16.141.172
 #Vcs-Git: git://git.debian.org/collab-maint/cos-upgrade.git
 #Vcs-Browser: http://git.debian.org/?p=collab-maint/cos-upgrade.git;a=summary
 
-Package: cos-upgrade
+Package: cdos-upgrade
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: shell script used for cos desktop update.
+Description: shell script used for update.
  shell script used for system update, used command cdos-update in your terminal.
