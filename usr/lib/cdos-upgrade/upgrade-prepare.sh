@@ -1,6 +1,6 @@
 #!/bin/bash
 
-COSREPOIP=124.16.141.172
+CDOSREPOIP=124.16.141.172
 
 function notice()
 {
@@ -13,7 +13,7 @@ function warning()
 function error()
 {
     echo -e "\033[2;31m-$@\033[0m"
-    echo -e "\033[2;31m-Upgrade-prepare Fail. contact us : cos_ibp@iscas.ac.cn\033[0m"
+    echo -e "\033[2;31m-Upgrade-prepare Fail. contact us : cdos_support@iscas.ac.cn\033[0m"
     exit 1
 }
 parameters=$@
@@ -23,10 +23,10 @@ while [ "$#" -gt "0" ]
 do
     case $1 in
     "-h" | "--help")
-        echo "Usage：cos-upgrade [options] <parameters>"
-        echo "    --skip-reinstall      skip reinstall cos-upgrade"
-        echo "    --upgrade             only upgrade package cos-upgrade"
-        echo "Any problem, contact us : cos_ibp@iscas.ac.cn"
+        echo "Usage：cdos-upgrade [options] <parameters>"
+        echo "    --skip-reinstall      skip reinstall cdos-upgrade"
+        echo "    --upgrade             only upgrade package cdos-upgrade"
+        echo "Any problem, contact us : cdos_support@iscas.ac.cn"
         exit 0
         ;;
     "--skip-reinstall")
@@ -59,13 +59,13 @@ function checknetwork()
         fi
     fi
 }
-function updatecosrepo()
+function updatecdosrepo()
 {
-    echo "deb http://${COSREPOIP}/cos iceblue main universe" > /etc/apt/sources.list.d/cos-repository.list
-    wget -q -O - http://${COSREPOIP}/cos/project/keyring.gpg | apt-key add - >/dev/null 2>&1 || return 1
-    wget -q -O - http://${COSREPOIP}/cos/project/coskeyring.gpg | apt-key add - >/dev/null 2>&1 || return 1
+    echo "deb http://${CDOSREPOIP}/cdos pony main universe" > /etc/apt/sources.list.d/cdos-repository.list
+    wget -q -O - http://${CDOSREPOIP}/cdos/project/keyring.gpg | apt-key add - >/dev/null 2>&1 || return 1
+    wget -q -O - http://${CDOSREPOIP}/cdos/project/cdoskeyring.gpg | apt-key add - >/dev/null 2>&1 || return 1
     origin=`sed -n '2p' /etc/apt/preferences | awk '{print $3}'`
-    if [ "${origin}" == "o=cos" ] ; then
+    if [ "${origin}" == "o=cdos" ] ; then
     sed -i '1,4d' /etc/apt/preferences
     fi
     codename=`sed -n '2p' /etc/apt/preferences | awk '{print $3}'`
@@ -77,7 +77,7 @@ Pin-Priority: 750\
     ' /etc/apt/preferences
     fi
     rm -rf /var/lib/apt/lists/*
-    apt-get update -o Dir::Etc::sourcelist="sources.list.d/cos-repository.list" -o Dir::Etc::sourceparts="-" -o APT::Get::List-Cleanup="0" >/dev/null 2>&1 || return 2
+    apt-get update -o Dir::Etc::sourcelist="sources.list.d/cdos-repository.list" -o Dir::Etc::sourceparts="-" -o APT::Get::List-Cleanup="0" >/dev/null 2>&1 || return 2
     return 0
 }
 
@@ -97,30 +97,30 @@ case $? in
     notice "Checking network: PASS."
     ;;
 esac
-#prepare: 2.update cos repositoy
-notice "prepare: 2.update cos repositoy"
-updatecosrepo
+#prepare: 2.update cdos repositoy
+notice "prepare: 2.update cdos repositoy"
+updatecdosrepo
 case $? in
     "1")
-    error "Update cos repositoy: FAIL. Can't get gpg keyring."
+    error "Update cdos repositoy: FAIL. Can't get gpg keyring."
     ;;
     "2")
-    error "Update cos repositoy: FAIL. Upgrade fail."
+    error "Update cdos repositoy: FAIL. Upgrade fail."
     ;;
     "0")
-    notice "Update cos repositoy: PASS."
+    notice "Update cdos repositoy: PASS."
     ;;
 esac
-#3. prepare: upgrade package cos-upgrade
-notice "prepare: 3.upgrade package cos-upgrade"
+#3. prepare: upgrade package cdos-upgrade
+notice "prepare: 3.upgrade package cdos-upgrade"
 if ${skip_reinstall} ; then    
-    notice "prepare: 3.upgrade package cos-upgrade: SKIP."
+    notice "prepare: 3.upgrade package cdos-upgrade: SKIP."
 else
-    apt-get install -y --force-yes --reinstall cos-upgrade
+    apt-get install -y --force-yes --reinstall cdos-upgrade
     if [ $? == "0" ]; then
-        notice "Upgrade package cos-upgrade: PASS."
+        notice "Upgrade package cdos-upgrade: PASS."
     else
-        error "Upgrade package cos-upgrade: FAIL."
+        error "Upgrade package cdos-upgrade: FAIL."
     fi
     if ${upgrade} ; then
         exit 0
@@ -128,5 +128,5 @@ else
 fi
 
 notice "********switch to upgrade.sh********"
-#4. prepare: cos-upgrade
-bash /usr/lib/cos-upgrade/upgrade.sh ${parameters}
+#4. prepare: cdos-upgrade
+bash /usr/lib/cdos-upgrade/upgrade.sh ${parameters}

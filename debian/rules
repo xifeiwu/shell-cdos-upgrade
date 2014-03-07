@@ -43,10 +43,10 @@ install: build
 	dh_clean -k 
 	dh_installdirs
 
-	rm -rf $(CURDIR)/debian/cos-upgrade
+	rm -rf $(CURDIR)/debian/cdos-upgrade
 	
-	mkdir -p $(CURDIR)/debian/cos-upgrade
-	cp -r $(CURDIR)/usr $(CURDIR)/debian/cos-upgrade/
+	mkdir -p $(CURDIR)/debian/cdos-upgrade
+	cp -r $(CURDIR)/usr $(CURDIR)/debian/cdos-upgrade/
 	
 # Build architecture-independent files here.
 binary-indep: build install

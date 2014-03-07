@@ -26,8 +26,8 @@ manpage.1: manpage.sgml
   <!ENTITY dhsection   "<manvolnum>SECTION</manvolnum>">
   <!ENTITY dhemail     "<email>xifei@nfs.iscas.ac.cn</email>">
   <!ENTITY dhusername  "xifei wu">
-  <!ENTITY dhucpackage "<refentrytitle>COS-UPGRADE</refentrytitle>">
-  <!ENTITY dhpackage   "cos-upgrade">
+  <!ENTITY dhucpackage "<refentrytitle>CDOS-UPGRADE</refentrytitle>">
+  <!ENTITY dhpackage   "cdos-upgrade">
 
   <!ENTITY debian      "<productname>Debian</productname>">
   <!ENTITY gnu         "<acronym>GNU</acronym>">

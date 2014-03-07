@@ -1,29 +1,29 @@
 #!/bin/bash
-source /usr/lib/cos-upgrade/upgrade-modules.sh
+source /usr/lib/cdos-upgrade/upgrade-modules.sh
 
 #parse parameter
 while [ "$#" -gt "0" ]
 do
     case $1 in
     "-h" | "--help")
-        echo "Usage：cos-upgrade [options] <parameters>"
+        echo "Usage：cdos-upgrade [options] <parameters>"
         echo "    [-U|--upgrade]             upgrade package only"
-        echo "    --list-steps             list all steps used by cos-upgrade."
-        echo "    --set-step             set a specific step of cos-upgrade."
-        echo "Any problem, contact us : cos_ibp@iscas.ac.cn"
+        echo "    --list-steps             list all steps used by cdos-upgrade."
+        echo "    --set-step             set a specific step of cdos-upgrade."
+        echo "Any problem, contact us : cdos_support@iscas.ac.cn"
         exit 0
         ;;
     "-U" | "--upgrade")
-        cosupgrade_upgrade
+        cdosupgrade_upgrade
         if [ $? -eq 0 ];then
-            notice "Install(Upgrade) cos-update success."
+            notice "Install(Upgrade) cdos-update success."
         else
-            error "Install(Upgrade) cos-update fail. error code: $?"
+            error "Install(Upgrade) cdos-update fail. error code: $?"
         fi
         exit 0
         ;;    
     "--list-steps")
-        notice "All steps of cos-upgrade:"
+        notice "All steps of cdos-upgrade:"
         for((i=0;i<${allsteps};i++))
         do
             echo ${ALLSTEPS[$i]}

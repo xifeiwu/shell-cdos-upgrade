@@ -1,9 +1,9 @@
 #!/bin/bash
-COSREPOIP=124.16.141.172
+CDOSREPOIP=124.16.141.172
 
-LOGFILE="/var/log/cos-upgrade.log"
+LOGFILE="/var/log/cdos-upgrade.log"
 if [ -f ${LOGFILE} ]; then
-    echo "Log of cos-upgrade:" > ${LOGFILE}
+    echo "Log of cdos-upgrade:" > ${LOGFILE}
 else
     touch ${LOGFILE}
 fi
@@ -19,7 +19,7 @@ function warning()
 function error()
 {
     echo -e "\033[2;31m-$@\033[0m" | tee -a ${LOGFILE}
-    echo -e "\033[2;31m-Upgrade Fail. contact us : cos_ibp@iscas.ac.cn\033[0m" | tee -a ${LOGFILE}
+    echo -e "\033[2;31m-Upgrade Fail. contact us : cdos_support@iscas.ac.cn\033[0m" | tee -a ${LOGFILE}
     exit 1
 }
 function echo_read()
@@ -75,14 +75,14 @@ function upload
     HOST=`hostname -s`
     DATE=`date +%Y%m%d%H%M`
     cd /var/log
-    echo "${IP}(${HOST})-${DATE}" >> cos-upgrade.log
-    mv cos-upgrade.log ${HOST}-${DATE}
-    ftp -n ${COSREPOIP} <<EOF
+    echo "${IP}(${HOST})-${DATE}" >> cdos-upgrade.log
+    mv cdos-upgrade.log ${HOST}-${DATE}
+    ftp -n ${CDOSREPOIP} <<EOF
 user upgradelog upgradelog
 prompt
 passive
 mput ${HOST}-${DATE}
 quit
 EOF
-    mv ${HOST}-${DATE} cos-upgrade.log
+    mv ${HOST}-${DATE} cdos-upgrade.log
 }

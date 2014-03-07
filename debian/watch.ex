@@ -8,16 +8,16 @@ version=3
 
 # Uncomment to examine a Webpage
 # <Webpage URL> <string match>
-#http://www.example.com/downloads.php cos-upgrade-(.*)\.tar\.gz
+#http://www.example.com/downloads.php cdos-upgrade-(.*)\.tar\.gz
 
 # Uncomment to examine a Webserver directory
-#http://www.example.com/pub/cos-upgrade-(.*)\.tar\.gz
+#http://www.example.com/pub/cdos-upgrade-(.*)\.tar\.gz
 
 # Uncommment to examine a FTP server
-#ftp://ftp.example.com/pub/cos-upgrade-(.*)\.tar\.gz debian uupdate
+#ftp://ftp.example.com/pub/cdos-upgrade-(.*)\.tar\.gz debian uupdate
 
 # Uncomment to find new files on sourceforge, for devscripts >= 2.9
-# http://sf.net/cos-upgrade/cos-upgrade-(.*)\.tar\.gz
+# http://sf.net/cdos-upgrade/cdos-upgrade-(.*)\.tar\.gz
 
 # Uncomment to find new files on GooglePages
-# http://example.googlepages.com/foo.html cos-upgrade-(.*)\.tar\.gz
+# http://example.googlepages.com/foo.html cdos-upgrade-(.*)\.tar\.gz

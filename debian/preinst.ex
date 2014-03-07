@@ -1,5 +1,5 @@
 #!/bin/sh
-# preinst script for cos-upgrade
+# preinst script for cdos-upgrade
 #
 # see: dh_installdeb(1)
 

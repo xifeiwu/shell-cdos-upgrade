@@ -1,6 +1,6 @@
-# Defaults for cos-upgrade initscript
+# Defaults for cdos-upgrade initscript
 # sourced by /etc/init.d/cos-upgrade
-# installed at /etc/default/cos-upgrade by the maintainer scripts
+# installed at /etc/default/cdos-upgrade by the maintainer scripts
 
 #
 # This is a POSIX shell fragment
