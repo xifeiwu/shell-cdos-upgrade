@@ -22,45 +22,25 @@ do
         fi
         exit 0
         ;;
-        ;;
     "--check")
         checkall
-        if [ $? -eq 0 ];then
-            notice "Check all necessary customization."
-        else
-            error "Install(Upgrade) cdos-update fail. error code: $?"
-        fi
         exit 0
         ;;
     "--list-steps")
         notice "All steps of cdos-upgrade:"
         for((i=0;i<${allsteps};i++))
         do
-            echo ${ALLSTEPS[$i]}
+            echo ${STEPSDESC[$i]}
         done
         exit 0
         ;;
-    "--set-step")
-        for((i=0;i<${allsteps};i++))
+    "--set-steps")
+        shift
+        step_selected=($@)
+        for step in ${step_selected[@]}
         do
-            echo ${ALLSTEPS[$i]}
+            custom_by_step ${step}
         done
-        notice_read "Choose the step[1-${allsteps}]:" ch
-        ch=`echo ${ch} | sed "s/[^1-9]//g"`
-        if [ ${ch} -ge 1 -a ${ch} -le ${allsteps} ]; then
-            echo_read "Your choice is: ${ALLSTEPS[$((ch-1))]} [Y/n]: " yn
-            while [ "${yn}" != "y" -a "${yn}" != "Y" -a "${yn}" != "n" -a "${yn}" != "N" ]
-            do
-                echo_read "Your choice is: ${ALLSTEPS[$((ch-1))]} [Y/n]: " yn
-            done
-            if [ "${yn}" == "Y" -o "${yn}" == "y" ]; then
-                upgrade_by_step $((ch-1))
-            else
-                error "no choose is selected."
-            fi
-        else
-            error "Your choose is not recognized. Select a number from 1 to ${allsteps}"
-        fi
         exit 0
         ;;
     *)

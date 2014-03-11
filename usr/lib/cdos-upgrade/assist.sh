@@ -10,16 +10,16 @@ fi
 
 function notice()
 {
-    echo -e "\033[2;32m-$@\033[0m" | tee -a ${LOGFILE}
+    echo -e "-$@" | tee -a ${LOGFILE}
 }
 function warning()
 {
-    echo -e "\033[2;33m-$@\033[0m" | tee -a ${LOGFILE}
+    echo -e "-$@" | tee -a ${LOGFILE}
 }
 function error()
 {
-    echo -e "\033[2;31m-$@\033[0m" | tee -a ${LOGFILE}
-    echo -e "\033[2;31m-Upgrade Fail. contact us : cdos_support@iscas.ac.cn\033[0m" | tee -a ${LOGFILE}
+    echo -e "-$@" | tee -a ${LOGFILE}
+    echo -e "-Upgrade Fail. contact us : cdos_support@iscas.ac.cn" | tee -a ${LOGFILE}
     exit 1
 }
 function echo_read()
@@ -29,12 +29,12 @@ function echo_read()
 }
 function notice_read()
 {
-    echo -ne "\033[2;32m-${1}\033[0m" | tee -a ${LOGFILE}
+    echo -ne "-${1}" | tee -a ${LOGFILE}
     read ${2}
 }
 function warning_read()
 {
-    echo -ne "\033[2;33m-${1}\033[0m" | tee -a ${LOGFILE}
+    echo -ne "-${1}" | tee -a ${LOGFILE}
     read ${2}
 }
 
@@ -85,4 +85,34 @@ mput ${HOST}-${DATE}
 quit
 EOF
     mv ${HOST}-${DATE} cdos-upgrade.log
+}
+
+function notice_shell()
+{
+    echo -e "\033[2;32m-$@\033[0m" | tee -a ${LOGFILE}
+}
+function warning_shell()
+{
+    echo -e "\033[2;33m-$@\033[0m" | tee -a ${LOGFILE}
+}
+function error_shell()
+{
+    echo -e "\033[2;31m-$@\033[0m" | tee -a ${LOGFILE}
+    echo -e "\033[2;31m-Upgrade Fail. contact us : cdos_support@iscas.ac.cn\033[0m" | tee -a ${LOGFILE}
+    exit 1
+}
+function echo_read_shell()
+{
+    echo -ne "-${1}" | tee -a ${LOGFILE}
+    read ${2}
+}
+function notice_read_shell()
+{
+    echo -ne "\033[2;32m-${1}\033[0m" | tee -a ${LOGFILE}
+    read ${2}
+}
+function warning_read_shell()
+{
+    echo -ne "\033[2;33m-${1}\033[0m" | tee -a ${LOGFILE}
+    read ${2}
 }

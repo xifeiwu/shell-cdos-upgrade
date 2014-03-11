@@ -7,31 +7,40 @@ else
     exit 1
 fi
 
-allsteps=9
+stepsnumber=9
 steps=1
-declare -a ALLSTEPS
-ALLSTEPS[0]="($((steps++))/${allsteps}). Checking Network Connection."
-ALLSTEPS[1]="($((steps++))/${allsteps}). Checking current version of CDOS."
-ALLSTEPS[2]="($((steps++))/${allsteps}). Update repositoies(cdos) for Package installation."
-ALLSTEPS[3]="($((steps++))/${allsteps}). Update repositoies(official) for Package installation."
-ALLSTEPS[4]="($((steps++))/${allsteps}). Replace Packages in Component Main."
-ALLSTEPS[5]="($((steps++))/${allsteps}). Upgrade Packages in Component Main."
-ALLSTEPS[6]="($((steps++))/${allsteps}). Purge Packages in Component Universe."
-ALLSTEPS[7]="($((steps++))/${allsteps}). Install Packages in Component Universe."
-ALLSTEPS[8]="($((steps++))/${allsteps}). Other fix."
-declare -a ALLFUNCS
-ALLFUNCS=(
-checknetwork
-checkversion
-updatecdosrepo
-updateofficialrepo
-replace_main_deb
-upgrade_main_deb
-purge_universe_pkg
-install_universe_pkg
-otherfix
-)
-
+declare -a STEPSDESC
+STEPSDESC[0]="Checking Network Connection."
+STEPSDESC[1]="Checking current version of CDOS."
+STEPSDESC[2]="Update repositoies(cdos) for Package installation."
+STEPSDESC[3]="Update repositoies(official) for Package installation."
+STEPSDESC[4]="Replace Packages in Component Main."
+STEPSDESC[5]="Upgrade Packages in Component Main."
+STEPSDESC[6]="Purge Packages in Component Universe."
+STEPSDESC[7]="Install Packages in Component Universe."
+STEPSDESC[8]="Other fix."
+declare -a STEPSFUNCS
+STEPSFUNCS[0]="checknetwork"
+STEPSFUNCS[1]="checkversion"
+STEPSFUNCS[2]="updatecdosrepo"
+STEPSFUNCS[3]="updateofficialrepo"
+STEPSFUNCS[4]="replace_main_deb"
+STEPSFUNCS[5]="upgrade_main_deb"
+STEPSFUNCS[6]="purge_universe_pkg"
+STEPSFUNCS[7]="install_universe_pkg"
+STEPSFUNCS[8]="otherfix"
+function get_desc_by_name()
+{
+    for((i=0;i<stepsnumber;i++))
+    do
+        if [ "${1}" == ${STEPSFUNCS[$i]} ]; then
+            echo ${STEPSDESC[$i]}
+            return 0
+        fi
+    done
+    echo "not found"
+    return 1
+}
 #1
 function checknetwork()
 {
@@ -313,23 +322,24 @@ function cdosupgrade_upgrade()
     return 0
 }
 
-function upgrade_by_step()
+function checkall()
 {
-    local step
-    step=${1}
-    notice ${ALLSTEPS[${step}]}
-    ${ALLFUNCS[${step}]}
+    func1="checknetwork"
+    func2="updatecdosrepo"
+    func1desc=`get_desc_by_name ${func1}`
+    func2desc=`get_desc_by_name ${func2}`
+    echo "${func1}####${func2}"
+    echo "${func1desc}####${func2desc}"
+}
+
+function custom_by_step()
+{
+    get_desc_by_name ${1}
+    ${1}
     if [ $? -eq 0 ]; then
         notice "Finished."
     else
-        warning_read "Function ${ALLFUNCS[${step}]} return an error code, Go on[N/y]" yn
-        while [ "${yn}" != "y" -a "${yn}" != "Y" -a "${yn}" != "n" -a "${yn}" != "N" ]
-        do
-            warning_read "Function ${ALLFUNCS[${step}]} return an error code, Go on[N/y]" yn
-        done
-        if [ "${yn}" == "N" -o "${yn}" == "n" ]; then
-            error "${ALLSTEPS[${step}]} fail. error code: $?"
-        fi            
+        error "${1} fail. error code: $?"
     fi
 }
 
