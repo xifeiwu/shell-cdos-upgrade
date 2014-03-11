@@ -14,7 +14,7 @@ do
         exit 0
         ;;
     "-U" | "--upgrade")
-        cosupgrade_upgrade
+        cdosupgrade_upgrade
         if [ $? -eq 0 ];then
             notice "Install(Upgrade) cos-update success."
         else

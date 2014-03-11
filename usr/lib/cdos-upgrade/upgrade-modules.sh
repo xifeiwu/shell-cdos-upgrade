@@ -303,7 +303,7 @@ function otherfix()
     return 0
 }
 
-function cosupgrade_upgrade()
+function cdosupgrade_upgrade()
 {
     notice "Checking Network Connection..."
     checknetwork || return 1
@@ -333,4 +333,3 @@ function upgrade_by_step()
     fi
 }
 #    DSTVER=`wget -q -O - http://${CDOSREPOIP}/cos/project/curver`
-    #rm -f /boot/config-3.8.0-cos-v0.5-i686  /boot/initrd.img-3.8.0-cos-v0.5-i686 /boot/System.map-3.8.0-cos-v0.5-i686 /boot/vmlinuz-3.8.0-cos-v0.5-i686 /boot/initrd.img-3.8.0-19-generic /boot/vmlinuz-3.8.0-19-generic
