@@ -21,7 +21,17 @@ do
             error "Install(Upgrade) cdos-update fail. error code: $?"
         fi
         exit 0
-        ;;    
+        ;;
+        ;;
+    "--check")
+        checkall
+        if [ $? -eq 0 ];then
+            notice "Check all necessary customization."
+        else
+            error "Install(Upgrade) cdos-update fail. error code: $?"
+        fi
+        exit 0
+        ;;
     "--list-steps")
         notice "All steps of cdos-upgrade:"
         for((i=0;i<${allsteps};i++))
@@ -86,20 +96,4 @@ do
     fi
 done
 exit 0
-#libreoffice=""
-#brasero_disk_burner="brasero brasero-cdrkit brasero-common libbrasero-media3-1"
-#vlc_media_player="vlc vlc-data vlc-nox vlc-plugin-notify vlc-plugin-pulse libvlccore5 libvlc5"
-
-#audacious:audacious audacious-plugins audacious-plugins-data libaudclient2 libaudcore1 libbinio1ldbl libbs2b0 libcue1 libfluidsynth1 libguess1 libmowgli2
-#gnome-chess:gnome-chess gnuchess gnuchess-book
-#gnome-mahjongg:gnome-mahjongg
-#goldendict:goldendict libphonon4 phonon phonon-backend-gstreamer
-#openfetion:libofetion1 openfetion
-#osdlyrics:libmpd1 libxmmsclient6 osdlyrics
-#remmina:remmina remmina-common remmina-plugin-rdp remmina-plugin-vnc
-#xfburn:libexo-1-0 libexo-common libexo-helpers libxfce4ui-1-0 libxfce4util-bin libxfce4util-common libxfce4util6 libxfconf-0-2 xfburn xfce-keyboard-shortcuts xfconf
-#gnome-paint:gnome-paint
-#qipmsg:qipmsg
-#kingsoft-office:kingsoft-office
-#wine-qq2012-longeneteam:wine-qq2012-longeneteam
 #gedit:?
