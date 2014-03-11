@@ -1,5 +1,5 @@
 #!/bin/bash
-source /usr/lib/cos-upgrade/upgrade-modules.sh
+source /usr/lib/cdos-upgrade/upgrade-modules.sh
 
 #parse parameter
 while [ "$#" -gt "0" ]

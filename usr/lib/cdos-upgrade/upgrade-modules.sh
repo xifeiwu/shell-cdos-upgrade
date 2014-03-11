@@ -1,5 +1,5 @@
 #!/bin/bash
-FILEPATH="/usr/lib/cos-upgrade"
+FILEPATH="/usr/lib/cdos-upgrade"
 if [ -f "${FILEPATH}/assist.sh" ]; then
     source ${FILEPATH}/assist.sh
 else
@@ -11,8 +11,8 @@ allsteps=9
 steps=1
 declare -a ALLSTEPS
 ALLSTEPS[0]="($((steps++))/${allsteps}). Checking Network Connection."
-ALLSTEPS[1]="($((steps++))/${allsteps}). Checking current version of COS Desktop."
-ALLSTEPS[2]="($((steps++))/${allsteps}). Update repositoies(cos) for Package installation."
+ALLSTEPS[1]="($((steps++))/${allsteps}). Checking current version of CDOS."
+ALLSTEPS[2]="($((steps++))/${allsteps}). Update repositoies(cdos) for Package installation."
 ALLSTEPS[3]="($((steps++))/${allsteps}). Update repositoies(official) for Package installation."
 ALLSTEPS[4]="($((steps++))/${allsteps}). Replace Packages in Component Main."
 ALLSTEPS[5]="($((steps++))/${allsteps}). Upgrade Packages in Component Main."
@@ -23,7 +23,7 @@ declare -a ALLFUNCS
 ALLFUNCS=(
 checknetwork
 checkversion
-updatecosrepo
+updatecdosrepo
 updateofficialrepo
 replace_main_deb
 upgrade_main_deb
@@ -50,7 +50,7 @@ function checknetwork()
 #2
 function checkversion()
 {
-    VERLIST=(`wget -q -O - http://${COSREPOIP}/cos/project/verlist`)
+    VERLIST=(`wget -q -O - http://${CDOSREPOIP}/cos/project/verlist`)
     CURVER=`lsb_release -r 2>/dev/null | awk '{print $2}'`
     DSTVER=${VERLIST[$((${#VERLIST[*]}-1))]}
     read -p "-Current version of COS Desktop is ${CURVER}, right? [y/n] " yn
@@ -82,11 +82,11 @@ function checkversion()
     fi
 }
 #3
-function updatecosrepo()
+function updatecdosrepo()
 {
-    echo "deb http://${COSREPOIP}/cos iceblue main universe" > /etc/apt/sources.list.d/cos-repository.list
-    wget -q -O - http://${COSREPOIP}/cos/project/keyring.gpg | apt-key add - >/dev/null 2>&1 || return 1
-    wget -q -O - http://${COSREPOIP}/cos/project/coskeyring.gpg | apt-key add - >/dev/null 2>&1 || return 1
+    echo "deb http://${CDOSREPOIP}/cos iceblue main universe" > /etc/apt/sources.list.d/cos-repository.list
+    wget -q -O - http://${CDOSREPOIP}/cos/project/keyring.gpg | apt-key add - >/dev/null 2>&1 || return 1
+    wget -q -O - http://${CDOSREPOIP}/cos/project/coskeyring.gpg | apt-key add - >/dev/null 2>&1 || return 1
     origin=`sed -n '2p' /etc/apt/preferences | awk '{print $3}'`
     if [ "${origin}" == "o=cos" ] ; then
     sed -i '1,4d' /etc/apt/preferences
@@ -128,7 +128,7 @@ EOF
 function replace_main_deb()
 {
     local pkg deblist mintdeb cosdeb installdeb debcnt
-    DEBLIST=`wget -q -O - http://${COSREPOIP}/cos/project/pkgs2replace` || return 1
+    DEBLIST=`wget -q -O - http://${CDOSREPOIP}/cos/project/pkgs2replace` || return 1
     deblist=`echo "${DEBLIST}"| awk '{print $2}'`
     mintdeb=(${deblist})
     deblist=`echo "${DEBLIST}" | awk '{print $3}'`
@@ -188,7 +188,7 @@ function replace_main_deb()
 function upgrade_main_deb()
 {
     local pkgs2upgrade pkg
-    pkgs2upgrade=(`wget -q -O - http://${COSREPOIP}/cos/project/pkgs2upgrade-0.9`) || return 1
+    pkgs2upgrade=(`wget -q -O - http://${CDOSREPOIP}/cos/project/pkgs2upgrade-0.9`) || return 1
     for pkg in ${pkgs2upgrade[@]} ; do
         echo "Upgrade main package ${pkg}..."
         apt-get -t iceblue install -y --force-yes ${pkg} >/dev/null 2>&1 
@@ -202,7 +202,7 @@ function upgrade_main_deb()
 function purge_universe_pkg()
 {
     local pkgs2purge pkg
-    pkgs2purge=(`wget -q -O - http://${COSREPOIP}/cos/project/pkgs2purge-0.9`) || return 1
+    pkgs2purge=(`wget -q -O - http://${CDOSREPOIP}/cos/project/pkgs2purge-0.9`) || return 1
         
     echo "Purging universe package ${pkgs2purge[@]}..."
     dpkg --purge ${pkgs2purge[@]}  >/dev/null 2>&1 || return 2
@@ -212,7 +212,7 @@ function purge_universe_pkg()
 function install_universe_pkg()
 {
     local pkgs2install pkg goldendir
-    pkgs2install=(`wget -q -O - http://${COSREPOIP}/cos/project/pkgs2install-0.9`) || return 2
+    pkgs2install=(`wget -q -O - http://${CDOSREPOIP}/cos/project/pkgs2install-0.9`) || return 2
 
     for pkg in ${pkgs2install[@]} ; do
         dpkg -s ${pkg} > /dev/null 2>&1
@@ -245,8 +245,8 @@ function install_universe_pkg()
     if [ ! -d ${goldendir} ]; then
         mkdir -p ${goldendir}
     fi
-    wget -q -O - http://${COSREPOIP}/cos/upgrade/goldendict/dicts.tar.gz | tar -zxvf - -C /usr/share/apps/goldendict/ || return 5
-    wget -q -O - http://${COSREPOIP}/cos/upgrade/goldendict/dictscache.tar.gz | tar -zxvf - -C /etc/skel/ || return 5
+    wget -q -O - http://${CDOSREPOIP}/cos/upgrade/goldendict/dicts.tar.gz | tar -zxvf - -C /usr/share/apps/goldendict/ || return 5
+    wget -q -O - http://${CDOSREPOIP}/cos/upgrade/goldendict/dictscache.tar.gz | tar -zxvf - -C /etc/skel/ || return 5
 }
 #9
 function otherfix()
@@ -283,7 +283,7 @@ function otherfix()
     mintWelcome.desktop
     )
     desktop_path="/usr/share/applications/"
-    wget -q -O - http://${COSREPOIP}/cos/upgrade/desktop.tar.gz | tar -zxvf - -C ${desktop_path} >/dev/null 2>&1 || return 1
+    wget -q -O - http://${CDOSREPOIP}/cos/upgrade/desktop.tar.gz | tar -zxvf - -C ${desktop_path} >/dev/null 2>&1 || return 1
     cd ${desktop_path}
     for file in ${files2remove[@]}; do
     if [ -f ${file}.desktop ]; then
@@ -332,5 +332,5 @@ function upgrade_by_step()
         fi            
     fi
 }
-#    DSTVER=`wget -q -O - http://${COSREPOIP}/cos/project/curver`
+#    DSTVER=`wget -q -O - http://${CDOSREPOIP}/cos/project/curver`
     #rm -f /boot/config-3.8.0-cos-v0.5-i686  /boot/initrd.img-3.8.0-cos-v0.5-i686 /boot/System.map-3.8.0-cos-v0.5-i686 /boot/vmlinuz-3.8.0-cos-v0.5-i686 /boot/initrd.img-3.8.0-19-generic /boot/vmlinuz-3.8.0-19-generic

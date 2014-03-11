@@ -1,9 +1,9 @@
 #!/bin/bash
-COSREPOIP=124.16.141.172
+CDOSREPOIP=124.16.141.172
 
-LOGFILE="/var/log/cos-upgrade.log"
+LOGFILE="/var/log/cdos-upgrade.log"
 if [ -f ${LOGFILE} ]; then
-    echo "Log of cos-upgrade:" > ${LOGFILE}
+    echo "Log of cdos-upgrade:" > ${LOGFILE}
 else
     touch ${LOGFILE}
 fi
