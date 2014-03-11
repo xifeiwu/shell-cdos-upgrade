@@ -50,18 +50,18 @@ function checknetwork()
 #2
 function checkversion()
 {
-    VERLIST=(`wget -q -O - http://${CDOSREPOIP}/cos/project/verlist`)
+    VERLIST=(`wget -q -O - http://${CDOSREPOIP}/cdos/project/verlist`)
     CURVER=`lsb_release -r 2>/dev/null | awk '{print $2}'`
     DSTVER=${VERLIST[$((${#VERLIST[*]}-1))]}
-    read -p "-Current version of COS Desktop is ${CURVER}, right? [y/n] " yn
+    read -p "-Current version of CDOS is ${CURVER}, right? [y/n] " yn
     while [ "${yn}" != "y" -a  "${yn}" != "Y" -a "${yn}" != "n" -a "${yn}" != "N" ]
     do
-        read -p "Current version of COS Desktop is ${CURVER}, right?[y/n] " yn
+        read -p "Current version of CDOS is ${CURVER}, right?[y/n] " yn
     done
     if [ "${yn}" == "N" -o "${yn}" == "n" ] ; then
         while true
         do
-            echo "Please enter version of current COS Desktop"
+            echo "Please enter version of current CDOS"
             notice_read "( ${VERLIST[*]} ) : " CURVER
             if [ -z ${CURVER} ] ; then
                 continue
@@ -84,11 +84,11 @@ function checkversion()
 #3
 function updatecdosrepo()
 {
-    echo "deb http://${CDOSREPOIP}/cos iceblue main universe" > /etc/apt/sources.list.d/cos-repository.list
-    wget -q -O - http://${CDOSREPOIP}/cos/project/keyring.gpg | apt-key add - >/dev/null 2>&1 || return 1
-    wget -q -O - http://${CDOSREPOIP}/cos/project/coskeyring.gpg | apt-key add - >/dev/null 2>&1 || return 1
+    echo "deb http://${CDOSREPOIP}/cdos iceblue main universe" > /etc/apt/sources.list.d/cdos-repository.list
+    wget -q -O - http://${CDOSREPOIP}/cdos/project/keyring.gpg | apt-key add - >/dev/null 2>&1 || return 1
+    wget -q -O - http://${CDOSREPOIP}/cdos/project/cdoskeyring.gpg | apt-key add - >/dev/null 2>&1 || return 1
     origin=`sed -n '2p' /etc/apt/preferences | awk '{print $3}'`
-    if [ "${origin}" == "o=cos" ] ; then
+    if [ "${origin}" == "o=cdos" ] ; then
     sed -i '1,4d' /etc/apt/preferences
     fi
     codename=`sed -n '2p' /etc/apt/preferences | awk '{print $3}'`
@@ -100,7 +100,7 @@ Pin-Priority: 750\
     ' /etc/apt/preferences
     fi
     rm -rf /var/lib/apt/lists/*
-    apt-get update -o Dir::Etc::sourcelist="sources.list.d/cos-repository.list" -o Dir::Etc::sourceparts="-" -o APT::Get::List-Cleanup="0" >/dev/null 2>&1 || return 2
+    apt-get update -o Dir::Etc::sourcelist="sources.list.d/cdos-repository.list" -o Dir::Etc::sourceparts="-" -o APT::Get::List-Cleanup="0" >/dev/null 2>&1 || return 2
     return 0
 }
 #4
@@ -110,7 +110,7 @@ function updateofficialrepo()
     MINTREPOIP="124.16.141.149"
     OFFICIALREPODIR="/etc/apt/sources.list.d/official-package-repositories.list"
     cat > ${OFFICIALREPODIR} << EOF
-deb http://${MINTREPOIP}/repos/cos cos main
+deb http://${MINTREPOIP}/repos/cdos pony main
 deb http://${MINTREPOIP}/repos/mint olivia main upstream import
 deb http://${MINTREPOIP}/repos/ubuntu raring main restricted universe multiverse
 deb http://${MINTREPOIP}/repos/ubuntu raring-security main restricted universe multiverse
@@ -127,14 +127,14 @@ EOF
 #5
 function replace_main_deb()
 {
-    local pkg deblist mintdeb cosdeb installdeb debcnt
-    DEBLIST=`wget -q -O - http://${CDOSREPOIP}/cos/project/pkgs2replace` || return 1
+    local pkg deblist mintdeb cdosdeb installdeb debcnt
+    DEBLIST=`wget -q -O - http://${CDOSREPOIP}/cdos/project/pkgs2replace` || return 1
     deblist=`echo "${DEBLIST}"| awk '{print $2}'`
     mintdeb=(${deblist})
     deblist=`echo "${DEBLIST}" | awk '{print $3}'`
-    cosdeb=(${deblist})
+    cdosdeb=(${deblist})
     debcnt=${#mintdeb[@]}
-    installdeb=`echo ${cosdeb[*]} | sed "s/null//g"`
+    installdeb=`echo ${cdosdeb[*]} | sed "s/null//g"`
     apt-get install -y --force-yes libreoffice-style-galaxy >/dev/null 2>&1 || return 2
     
     for ((i=0; i<${debcnt}; i++))
@@ -152,7 +152,7 @@ function replace_main_deb()
                 return 1
             fi
         fi
-        pkg=${cosdeb[$i]}
+        pkg=${cdosdeb[$i]}
         if [ ${pkg} == "null" ] ; then
             continue
         fi
@@ -171,7 +171,7 @@ function replace_main_deb()
 
     for ((i=${debcnt}-1; i>=0; i--))
     do
-        pkg=${cosdeb[$i]}
+        pkg=${cdosdeb[$i]}
         if [ "${pkg}" == "null" ]; then
             continue
         fi
@@ -188,7 +188,7 @@ function replace_main_deb()
 function upgrade_main_deb()
 {
     local pkgs2upgrade pkg
-    pkgs2upgrade=(`wget -q -O - http://${CDOSREPOIP}/cos/project/pkgs2upgrade-0.9`) || return 1
+    pkgs2upgrade=(`wget -q -O - http://${CDOSREPOIP}/cdos/project/pkgs2upgrade-0.9`) || return 1
     for pkg in ${pkgs2upgrade[@]} ; do
         echo "Upgrade main package ${pkg}..."
         apt-get -t iceblue install -y --force-yes ${pkg} >/dev/null 2>&1 
@@ -202,7 +202,7 @@ function upgrade_main_deb()
 function purge_universe_pkg()
 {
     local pkgs2purge pkg
-    pkgs2purge=(`wget -q -O - http://${CDOSREPOIP}/cos/project/pkgs2purge-0.9`) || return 1
+    pkgs2purge=(`wget -q -O - http://${CDOSREPOIP}/cdos/project/pkgs2purge-0.9`) || return 1
         
     echo "Purging universe package ${pkgs2purge[@]}..."
     dpkg --purge ${pkgs2purge[@]}  >/dev/null 2>&1 || return 2
@@ -212,7 +212,7 @@ function purge_universe_pkg()
 function install_universe_pkg()
 {
     local pkgs2install pkg goldendir
-    pkgs2install=(`wget -q -O - http://${CDOSREPOIP}/cos/project/pkgs2install-0.9`) || return 2
+    pkgs2install=(`wget -q -O - http://${CDOSREPOIP}/cdos/project/pkgs2install-0.9`) || return 2
 
     for pkg in ${pkgs2install[@]} ; do
         dpkg -s ${pkg} > /dev/null 2>&1
@@ -245,8 +245,8 @@ function install_universe_pkg()
     if [ ! -d ${goldendir} ]; then
         mkdir -p ${goldendir}
     fi
-    wget -q -O - http://${CDOSREPOIP}/cos/upgrade/goldendict/dicts.tar.gz | tar -zxvf - -C /usr/share/apps/goldendict/ || return 5
-    wget -q -O - http://${CDOSREPOIP}/cos/upgrade/goldendict/dictscache.tar.gz | tar -zxvf - -C /etc/skel/ || return 5
+    wget -q -O - http://${CDOSREPOIP}/cdos/upgrade/goldendict/dicts.tar.gz | tar -zxvf - -C /usr/share/apps/goldendict/ || return 5
+    wget -q -O - http://${CDOSREPOIP}/cdos/upgrade/goldendict/dictscache.tar.gz | tar -zxvf - -C /etc/skel/ || return 5
 }
 #9
 function otherfix()
@@ -283,7 +283,7 @@ function otherfix()
     mintWelcome.desktop
     )
     desktop_path="/usr/share/applications/"
-    wget -q -O - http://${CDOSREPOIP}/cos/upgrade/desktop.tar.gz | tar -zxvf - -C ${desktop_path} >/dev/null 2>&1 || return 1
+    wget -q -O - http://${CDOSREPOIP}/cdos/upgrade/desktop.tar.gz | tar -zxvf - -C ${desktop_path} >/dev/null 2>&1 || return 1
     cd ${desktop_path}
     for file in ${files2remove[@]}; do
     if [ -f ${file}.desktop ]; then
@@ -296,8 +296,8 @@ function otherfix()
 #    ln -s /bin/bash /bin/sh
 
     echo "Upgrade Linux Kernel."
-    apt-get -t iceblue install -y --force-yes linux-headers-3.8.13.13-cos-i686 >/dev/null 2>&1 || return 2
-    apt-get -t iceblue install -y --force-yes linux-image-3.8.13.13-cos-i686 >/dev/null 2>&1 || return 2
+    apt-get -t iceblue install -y --force-yes linux-headers-3.8.13.13-cdos >/dev/null 2>&1 || return 2
+    apt-get -t iceblue install -y --force-yes linux-image-3.8.13.13-cdos >/dev/null 2>&1 || return 2
     update-grub || return 1
 
     return 0
@@ -307,9 +307,9 @@ function cdosupgrade_upgrade()
 {
     notice "Checking Network Connection..."
     checknetwork || return 1
-    notice "Updating repositoies for COS..."
-    updatecosrepo || return 2
-    apt-get install -y --force-yes --reinstall cos-upgrade >/dev/null 2>&1 || return 3
+    notice "Updating repositoies for CDOS..."
+    updatecdosrepo || return 2
+    apt-get install -y --force-yes --reinstall cdos-upgrade >/dev/null 2>&1 || return 3
     return 0
 }
 
