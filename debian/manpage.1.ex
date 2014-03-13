@@ -1,10 +1,10 @@
 .\"                                      Hey, EMACS: -*- nroff -*-
-.\" (C) Copyright 2013 xifei wu <xifei@nfs.iscas.ac.cn>,
+.\" (C) Copyright 2014 xifei wu <xifei@nfs.iscas.ac.cn>,
 .\"
 .\" First parameter, NAME, should be all caps
 .\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
 .\" other parameters are allowed: see man(7), man(1)
-.TH cdos-UPGRADE SECTION "September 26, 2013"
+.TH CDOS-UPGRADE SECTION "March 11, 2014"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .\" Some roff macros, for reference:

@@ -1,23 +1,5 @@
-cdos-upgrade (2014.02.22) pony; urgency=low
+cdos-upgrade (2014.02.25) pony; urgency=low
 
-  * Pony
+  * Initial Release.
 
- -- CDOS Team <cdos_support@iscas.ac.cn>  Thur, 22 Feb 2014 11:14:28 +0800
-
-cdos-upgrade (2013.12.25) pony; urgency=low
-
-  * Pony
-
- -- CDOS Team <cdos_support@iscas.ac.cn>  Thur, 25 Dec 2013 11:14:28 +0800
-
-cdos-upgrade (2013.11.28) pony; urgency=low
-
-  * Pony
-
- -- CDOS Team <cdos_support@iscas.ac.cn>  Thur, 28 Nov 2013 11:14:28 +0800
-
-cdos-upgrade (2013.10.31) pony; urgency=low
-
-  * Pony
-
- -- CDOS Team <cdos_support@iscas.ac.cn>  Wen, 31 Oct 2013 11:14:28 +0800
+ -- xifei wu <xifei@nfs.iscas.ac.cn>  Tue, 11 Mar 2014 10:35:53 +0800

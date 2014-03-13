@@ -1,15 +1,15 @@
 Source: cdos-upgrade
 Section: main
 Priority: extra
-Maintainer: CDOS Team <cdos_support@iscas.ac.cn>
+Maintainer: xifei wu <xifei@nfs.iscas.ac.cn>
 Build-Depends: debhelper (>= 8.0.0)
 Standards-Version: 3.9.4
-Homepage: http://124.16.141.172
-#Vcs-Git: git://git.debian.org/collab-maint/cos-upgrade.git
-#Vcs-Browser: http://git.debian.org/?p=collab-maint/cos-upgrade.git;a=summary
+Homepage: <insert the upstream URL, if relevant>
+#Vcs-Git: git://git.debian.org/collab-maint/cdos-upgrade.git
+#Vcs-Browser: http://git.debian.org/?p=collab-maint/cdos-upgrade.git;a=summary
 
 Package: cdos-upgrade
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: shell script used for update.
- shell script used for system update, used command cdos-update in your terminal.
+Description: <insert up to 60 chars description>
+ <insert long description, indented with spaces>

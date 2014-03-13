@@ -1,5 +1,5 @@
 # Defaults for cdos-upgrade initscript
-# sourced by /etc/init.d/cos-upgrade
+# sourced by /etc/init.d/cdos-upgrade
 # installed at /etc/default/cdos-upgrade by the maintainer scripts
 
 #
