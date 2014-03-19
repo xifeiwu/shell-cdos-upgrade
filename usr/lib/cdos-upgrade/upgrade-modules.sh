@@ -328,8 +328,8 @@ function checkall()
     func2="updatecdosrepo"
     func1desc=`get_desc_by_name ${func1}`
     func2desc=`get_desc_by_name ${func2}`
-    echo "${func1}####${func2}"
-    echo "${func1desc}####${func2desc}"
+    #echo "cdos-upgrade --set-steps ${func1}####cdos-upgrade --set-steps ${func2}"
+    #echo "${func1desc}####${func2desc}"
 }
 
 function custom_by_step()
