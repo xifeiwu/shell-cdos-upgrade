@@ -1,5 +1,5 @@
-cdos-upgrade (2014.02.25) pony; urgency=low
+cdos-upgrade (2014.02.25) horse-apr; urgency=low
 
-  * Initial Release.
+  * Update
 
- -- xifei wu <xifei@nfs.iscas.ac.cn>  Tue, 11 Mar 2014 10:35:53 +0800
+ -- CDOS Team <cdos_support@iscas.ac.cn>  Wed, 22 Jan 2014 14:32:49 +0800

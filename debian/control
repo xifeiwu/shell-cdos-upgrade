@@ -1,7 +1,7 @@
 Source: cdos-upgrade
 Section: main
 Priority: extra
-Maintainer: xifei wu <xifei@nfs.iscas.ac.cn>
+Maintainer: CDOS Team <cdos_support@iscas.ac.cn>
 Build-Depends: debhelper (>= 8.0.0)
 Standards-Version: 3.9.4
 Homepage: <insert the upstream URL, if relevant>
