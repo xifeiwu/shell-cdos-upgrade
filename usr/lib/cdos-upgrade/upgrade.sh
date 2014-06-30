@@ -28,7 +28,7 @@ do
         ;;
     "--list-steps")
         notice "All steps of cdos-upgrade:"
-        for((i=0;i<${allsteps};i++))
+        for((i=0;i<${stepsnumber};i++))
         do
             echo ${STEPSDESC[$i]}
         done
@@ -56,9 +56,9 @@ if [ "$USER" != "root" ] ; then
     error "Please run as the root user."
 fi
 
-for((step=0;step<${allsteps};step++))
+for((step=0;step<${stepsnumber};step++))
 do
-    upgrade_by_step ${step}
+    custom_by_step ${step}
 done
 
 notice "Upgrade success, reboot system now"

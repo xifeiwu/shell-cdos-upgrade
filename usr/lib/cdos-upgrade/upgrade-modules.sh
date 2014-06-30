@@ -29,6 +29,7 @@ STEPSFUNCS[5]="upgrade_main_deb"
 STEPSFUNCS[6]="purge_universe_pkg"
 STEPSFUNCS[7]="install_universe_pkg"
 STEPSFUNCS[8]="otherfix"
+
 function get_desc_by_name()
 {
     for((i=0;i<stepsnumber;i++))
@@ -95,7 +96,7 @@ function updatecdosrepo()
 {
     echo "deb http://${CDOSREPOIP}/cdos iceblue main universe" > /etc/apt/sources.list.d/cdos-repository.list
     wget -q -O - http://${CDOSREPOIP}/cdos/project/keyring.gpg | apt-key add - >/dev/null 2>&1 || return 1
-    wget -q -O - http://${CDOSREPOIP}/cdos/project/cdoskeyring.gpg | apt-key add - >/dev/null 2>&1 || return 1
+    #wget -q -O - http://${CDOSREPOIP}/cdos/project/cdoskeyring.gpg | apt-key add - >/dev/null 2>&1 || return 1
     origin=`sed -n '2p' /etc/apt/preferences | awk '{print $3}'`
     if [ "${origin}" == "o=cdos" ] ; then
     sed -i '1,4d' /etc/apt/preferences
@@ -119,14 +120,11 @@ function updateofficialrepo()
     MINTREPOIP="124.16.141.149"
     OFFICIALREPODIR="/etc/apt/sources.list.d/official-package-repositories.list"
     cat > ${OFFICIALREPODIR} << EOF
-deb http://${MINTREPOIP}/repos/cdos pony main
+deb http://${MINTREPOIP}/repos/cdos horse_apr main partner
 deb http://${MINTREPOIP}/repos/mint olivia main upstream import
 deb http://${MINTREPOIP}/repos/ubuntu raring main restricted universe multiverse
 deb http://${MINTREPOIP}/repos/ubuntu raring-security main restricted universe multiverse
 deb http://${MINTREPOIP}/repos/ubuntu raring-updates main restricted universe multiverse
-deb http://${MINTREPOIP}/repos/ubuntu raring-proposed main restricted universe multiverse
-deb http://${MINTREPOIP}/repos/ubuntu raring-backports main restricted universe multiverse
-deb http://${MINTREPOIP}/repos/security-ubuntu/ubuntu raring-security main restricted universe multiverse
 deb http://${MINTREPOIP}/repos/canonical/ubuntu raring partner
 EOF
     wget -q -O - http://${MINTREPOIP}/repos/cos.gpg.key | apt-key add - || return 1
