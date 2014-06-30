@@ -86,10 +86,10 @@ function checkversion()
         done
     fi
     if [ "${CURVER}" == "${DSTVER}" ] ; then
-        return 1
-    else
-        return 0
+        echo "Current version is the latest version, no need to upgrade."
+        exit 0
     fi
+    return 0
 }
 #3
 function updatecdosrepo()
@@ -119,16 +119,17 @@ function updateofficialrepo()
     local MINTREPOIP OFFICIALREPODIR
     MINTREPOIP="124.16.141.149"
     OFFICIALREPODIR="/etc/apt/sources.list.d/official-package-repositories.list"
+    wget -q -O - http://${CDOSREPOIP}/cdos/project/cdos-keyring.gpg | apt-key add - >/dev/null 2>&1 || return 1
     cat > ${OFFICIALREPODIR} << EOF
 deb http://${MINTREPOIP}/repos/cdos horse_apr main partner
 deb http://${MINTREPOIP}/repos/mint olivia main upstream import
 deb http://${MINTREPOIP}/repos/ubuntu raring main restricted universe multiverse
-deb http://${MINTREPOIP}/repos/ubuntu raring-security main restricted universe multiverse
 deb http://${MINTREPOIP}/repos/ubuntu raring-updates main restricted universe multiverse
 deb http://${MINTREPOIP}/repos/canonical/ubuntu raring partner
 EOF
-    wget -q -O - http://${MINTREPOIP}/repos/cos.gpg.key | apt-key add - || return 1
-    apt-get update -o Dir::Etc::sourcelist="sources.list.d/official-package-repositories.list" -o Dir::Etc::sourceparts="-" -o APT::Get::List-Cleanup="0" || return 2
+#deb http://${MINTREPOIP}/repos/ubuntu raring-security main restricted universe multiverse
+    #wget -q -O - http://${MINTREPOIP}/repos/cos.gpg.key | apt-key add - || return 2
+    apt-get update -o Dir::Etc::sourcelist="sources.list.d/official-package-repositories.list" -o Dir::Etc::sourceparts="-" -o APT::Get::List-Cleanup="0" || return 3
     return 0
 }
 #5

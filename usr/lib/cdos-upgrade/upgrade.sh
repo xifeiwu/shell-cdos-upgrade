@@ -7,9 +7,9 @@ do
     case $1 in
     "-h" | "--help")
         echo "Usage：cdos-upgrade [options] <parameters>"
-        echo "    [-U|--upgrade]             upgrade package only"
-        echo "    --list-steps             list all steps used by cdos-upgrade."
-        echo "    --set-step             set a specific step of cdos-upgrade."
+        echo "    [-U|--upgrade]            upgrade package only"
+        #echo "    --list-steps              list all steps used by cdos-upgrade."
+        #echo "    --set-step                set a specific step of cdos-upgrade."
         echo "Any problem, contact us : cdos_support@iscas.ac.cn"
         exit 0
         ;;
@@ -56,10 +56,15 @@ if [ "$USER" != "root" ] ; then
     error "Please run as the root user."
 fi
 
-for((step=0;step<${stepsnumber};step++))
+steps_num="0 1 3"
+for step in ${steps_num}
 do
-    custom_by_step ${step}
+    custom_by_step ${STEPSFUNCS[$step]}
 done
+#for((step=0;step<${stepsnumber};step++))
+#do
+#    custom_by_step ${step}
+#done
 
 notice "Upgrade success, reboot system now"
 while true
