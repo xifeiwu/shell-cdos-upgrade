@@ -7,9 +7,9 @@ do
     case $1 in
     "-h" | "--help")
         echo "Usage：cdos-upgrade [options] <parameters>"
-        echo "    [-U|--upgrade]             upgrade package only"
-        echo "    --list-steps             list all steps used by cdos-upgrade."
-        echo "    --set-step             set a specific step of cdos-upgrade."
+        echo "    [-U|--upgrade]            upgrade package only"
+        #echo "    --list-steps              list all steps used by cdos-upgrade."
+        #echo "    --set-step                set a specific step of cdos-upgrade."
         echo "Any problem, contact us : cdos_support@iscas.ac.cn"
         exit 0
         ;;
@@ -28,7 +28,7 @@ do
         ;;
     "--list-steps")
         notice "All steps of cdos-upgrade:"
-        for((i=0;i<${allsteps};i++))
+        for((i=0;i<${stepsnumber};i++))
         do
             echo ${STEPSDESC[$i]}
         done
@@ -56,23 +56,30 @@ if [ "$USER" != "root" ] ; then
     error "Please run as the root user."
 fi
 
-for((step=0;step<${allsteps};step++))
+steps_num="0 1 3"
+for step in ${steps_num}
 do
-    upgrade_by_step ${step}
+    custom_by_step ${STEPSFUNCS[$step]}
 done
+#for((step=0;step<${stepsnumber};step++))
+#do
+#    custom_by_step ${step}
+#done
 
 notice "Upgrade success, reboot system now"
 while true
 do
     notice_read "-System will reboot, yes?[y/N] " yn
-    if [ -z ${yn} ]; then
-        continue
-    fi
+#    if [ -z ${yn} ]; then
+#        continue
+#    fi
     if [ "${yn}" == "y" ]; then
         reboot
         break
-    elif [ "${yn}" == "n" ]; then
-        break 
+    else
+        break
+#    elif [ "${yn}" == "n" ]; then
+#        break 
     fi
 done
 exit 0
