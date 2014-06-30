@@ -70,14 +70,16 @@ notice "Upgrade success, reboot system now"
 while true
 do
     notice_read "-System will reboot, yes?[y/N] " yn
-    if [ -z ${yn} ]; then
-        continue
-    fi
+#    if [ -z ${yn} ]; then
+#        continue
+#    fi
     if [ "${yn}" == "y" ]; then
         reboot
         break
-    elif [ "${yn}" == "n" ]; then
-        break 
+    else
+        break
+#    elif [ "${yn}" == "n" ]; then
+#        break 
     fi
 done
 exit 0
